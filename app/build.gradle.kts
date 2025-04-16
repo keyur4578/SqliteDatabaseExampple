@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.karon.sqlitedatabaseexampple"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.karon.sqlitedatabaseexampple"
