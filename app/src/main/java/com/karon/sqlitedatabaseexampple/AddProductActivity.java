@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +52,33 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DatabaseHelper db = new DatabaseHelper(AddProductActivity.this);
+                
+                String pname = edtProductName.getText().toString();
+                String qty = edtProductQty.getText().toString();
+                String price = edtProductPrice.getText().toString();
+                String description = edtProductDescription.getText().toString();
+
+                if(pname.isEmpty() || qty.isEmpty() || price.isEmpty() || description.isEmpty())
+                {
+                    Toast.makeText(AddProductActivity.this, "Please enter all values", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                boolean result = db.insertProduct(pname,qty,price,description);
+
+                if(result)
+                {
+                    Toast.makeText(AddProductActivity.this, "Product Inserted!", Toast.LENGTH_SHORT).show();
+                    edtProductName.setText("");
+                    edtProductQty.setText("");
+                    edtProductPrice.setText("");
+                    edtProductDescription.setText("");
+                }
+                else
+                {
+                    Toast.makeText(AddProductActivity.this, "Product Not Inserted", Toast.LENGTH_SHORT).show();
+                }
+                
             }
         });
     }

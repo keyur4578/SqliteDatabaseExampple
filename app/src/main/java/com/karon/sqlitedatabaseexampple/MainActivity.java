@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,AddProductActivity.class);
                 startActivity(intent);
             }
+            else if (item.getItemId() == R.id.nav_viewproduct) {
+                Intent intent = new Intent(MainActivity.this,ProductListActivity.class);
+                startActivity(intent);
+            }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
