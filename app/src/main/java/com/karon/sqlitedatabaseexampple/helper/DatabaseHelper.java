@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.karon.sqlitedatabaseexampple.classfiles.Product;
+
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -64,16 +66,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
-    public ArrayList<String> viewProduct()
+    public ArrayList<Product> viewProduct()
     {
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<Product> data = new ArrayList<>();
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+PRODUCT_TABLE_NAME,null);
         if(cursor.moveToFirst())
         {
             do {
-                String product_name = cursor.getString(1).toString() + " Rs." + cursor.getString(3).toString();
-                data.add(product_name);
+                int product_id = cursor.getInt(0);
+                String product_name = cursor.getString(1).toString();
+                int product_qty = cursor.getInt(2);
+                double product_price = cursor.getDouble(3);
+                String product_description = cursor.getString(4).toString();
+
+                Product obj = new Product();
+                obj.product_id = product_id;
+                obj.product_name = product_name;
+                obj.product_qty = product_qty;
+                obj.product_price = product_price;
+                obj.product_description = product_description;
+
+                data.add(obj);
+
             }while(cursor.moveToNext());
         }
         return data;
