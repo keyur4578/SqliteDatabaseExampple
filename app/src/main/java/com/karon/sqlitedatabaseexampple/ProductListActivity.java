@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import com.karon.sqlitedatabaseexampple.helper.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class ProductListActivity extends AppCompatActivity {
+public class ProductListActivity extends AppCompatActivity implements ProductAdapter.OnUserClickListner {
 
     ListView mylistview;
 
@@ -44,20 +45,29 @@ public class ProductListActivity extends AppCompatActivity {
             }
         });
         mylistview = (ListView) findViewById(R.id.mylistview);
-
-        DatabaseHelper db = new DatabaseHelper(ProductListActivity.this);
-        ArrayList<Product> productList = db.viewProduct();
-
-        ProductAdapter adapter = new ProductAdapter(ProductListActivity.this,productList);
-        mylistview.setAdapter(adapter);
-
-
-
-
-
-
+        loadata();
 
        // ArrayAdapter<String> adapter = new ArrayAdapter<>(ProductListActivity.this, android.R.layout.simple_list_item_1,productList);
        // mylistview.setAdapter(adapter);
+    }
+
+    public void loadata()
+    {
+        DatabaseHelper db = new DatabaseHelper(ProductListActivity.this);
+        ArrayList<Product> productList = db.viewProduct();
+
+        ProductAdapter adapter = new ProductAdapter(ProductListActivity.this,productList,this);
+        mylistview.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDeleteButtonClick(Product obj) {
+        DatabaseHelper db = new DatabaseHelper(ProductListActivity.this);
+        boolean result = db.deleteProduct(String.valueOf(obj.product_id));
+        if(result)
+        {
+            Toast.makeText(this, "Record Deleted : "+obj.product_name, Toast.LENGTH_SHORT).show();
+            loadata();
+        }
     }
 }

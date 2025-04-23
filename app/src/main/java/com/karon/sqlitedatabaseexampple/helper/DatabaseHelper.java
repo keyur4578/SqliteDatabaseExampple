@@ -95,9 +95,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
 
     }
-    public void deleteProduct()
+    public boolean deleteProduct(String product_id)
     {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(PRODUCT_TABLE_NAME,PRODUCT_ID + "=?",new String[]{product_id});
+        return result > 0;
 
+        //Cursor result = db.rawQuery("delete from "+PRODUCT_TABLE_NAME+" where product_id='"+product_id+"'",null);
     }
     public void updateProduct()
     {

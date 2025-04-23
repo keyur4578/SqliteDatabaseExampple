@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.karon.sqlitedatabaseexampple.R;
@@ -16,12 +17,19 @@ public class ProductAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<Product> productlist;
+    OnUserClickListner listner;
+
+    public interface OnUserClickListner
+    {
+        void onDeleteButtonClick(Product obj);
+    }
 
 
-    public ProductAdapter(Context context, ArrayList<Product> productlist)
+    public ProductAdapter(Context context, ArrayList<Product> productlist,OnUserClickListner listner)
     {
         this.context = context;
         this.productlist = productlist;
+        this.listner = listner;
     }
 
     @Override
@@ -45,13 +53,19 @@ public class ProductAdapter extends BaseAdapter {
         TextView lblProductName = (TextView) view.findViewById(R.id.lblProductName);
         TextView lblProductQty = (TextView) view.findViewById(R.id.lblProductQty);
         TextView lblProductPrice = (TextView) view.findViewById(R.id.lblProductPrice);
+        Button btnDelete = (Button) view.findViewById(R.id.btnDelete);
 
         Product obj = productlist.get(position);
         lblProductName.setText(obj.product_name.toString());
         lblProductQty.setText(String.valueOf(obj.product_qty));
         lblProductPrice.setText("Rs." + String.valueOf(obj.product_price));
 
+        btnDelete.setOnClickListener(v->listner.onDeleteButtonClick(obj));
+
+
+
 
         return view;
     }
+
 }
