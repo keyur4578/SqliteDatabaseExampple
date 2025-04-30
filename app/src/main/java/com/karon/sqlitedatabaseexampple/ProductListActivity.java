@@ -1,5 +1,6 @@
 package com.karon.sqlitedatabaseexampple;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -63,11 +64,22 @@ public class ProductListActivity extends AppCompatActivity implements ProductAda
     @Override
     public void onDeleteButtonClick(Product obj) {
         DatabaseHelper db = new DatabaseHelper(ProductListActivity.this);
-        boolean result = db.deleteProduct(String.valueOf(obj.product_id));
+        boolean result = db.deleteProduct(String.valueOf(obj.getProduct_id()));
         if(result)
         {
-            Toast.makeText(this, "Record Deleted : "+obj.product_name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Record Deleted : "+obj.getProduct_name(), Toast.LENGTH_SHORT).show();
             loadata();
         }
+    }
+
+    @Override
+    public void onEditButtonClick(Product obj) {
+        Intent intent = new Intent(ProductListActivity.this,UpdateProductActivity.class);
+        intent.putExtra("id",String.valueOf(obj.getProduct_id()));
+        intent.putExtra("name",String.valueOf(obj.getProduct_name()));
+        intent.putExtra("qty",String.valueOf(obj.getProduct_qty()));
+        intent.putExtra("price",String.valueOf(obj.getProduct_price()));
+        intent.putExtra("description",String.valueOf(obj.getProduct_description()));
+        startActivity(intent);
     }
 }

@@ -82,11 +82,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String product_description = cursor.getString(4).toString();
 
                 Product obj = new Product();
-                obj.product_id = product_id;
-                obj.product_name = product_name;
-                obj.product_qty = product_qty;
-                obj.product_price = product_price;
-                obj.product_description = product_description;
+                obj.setProduct_id(product_id);
+                obj.setProduct_name(product_name);
+                obj.setProduct_qty(product_qty);
+                obj.setProduct_price(product_price);
+                obj.setProduct_description(product_description);
+
+
+//                obj.product_id = product_id;
+//                obj.product_name = product_name;
+//                obj.product_qty = product_qty;
+//                obj.product_price = product_price;
+//                obj.product_description = product_description;
 
                 data.add(obj);
 
@@ -103,9 +110,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Cursor result = db.rawQuery("delete from "+PRODUCT_TABLE_NAME+" where product_id='"+product_id+"'",null);
     }
-    public void updateProduct()
+    public boolean updateProduct(String pname,String qty,String price,String description,String id)
     {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PRODUCT_NAME,pname);
+        values.put(PRODUCT_QTY,qty);
+        values.put(PRODUCT_PRICE,price);
+        values.put(PRODUCT_DESCRIPTION,description);
 
+        long result = db.update(PRODUCT_TABLE_NAME,values,PRODUCT_ID + "=?",new String[]{id});
+
+        if(result!=-1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

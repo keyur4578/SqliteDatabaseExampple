@@ -22,6 +22,7 @@ public class ProductAdapter extends BaseAdapter {
     public interface OnUserClickListner
     {
         void onDeleteButtonClick(Product obj);
+        void onEditButtonClick(Product obj);
     }
 
 
@@ -54,15 +55,19 @@ public class ProductAdapter extends BaseAdapter {
         TextView lblProductQty = (TextView) view.findViewById(R.id.lblProductQty);
         TextView lblProductPrice = (TextView) view.findViewById(R.id.lblProductPrice);
         Button btnDelete = (Button) view.findViewById(R.id.btnDelete);
+        Button btnEdit = (Button) view.findViewById(R.id.btnEdit);
+
 
         Product obj = productlist.get(position);
-        lblProductName.setText(obj.product_name.toString());
-        lblProductQty.setText(String.valueOf(obj.product_qty));
-        lblProductPrice.setText("Rs." + String.valueOf(obj.product_price));
+        lblProductName.setText(obj.getProduct_name().toString());
+        lblProductQty.setText(String.valueOf(obj.getProduct_qty()));
+        lblProductPrice.setText("Rs." + String.valueOf(obj.getProduct_price()));
+//        lblProductName.setText(obj.product_name.toString());
+//        lblProductQty.setText(String.valueOf(obj.product_qty));
+//        lblProductPrice.setText("Rs." + String.valueOf(obj.product_price));
 
         btnDelete.setOnClickListener(v->listner.onDeleteButtonClick(obj));
-
-
+        btnEdit.setOnClickListener(v->listner.onEditButtonClick(obj));
 
 
         return view;
